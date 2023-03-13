@@ -8,22 +8,6 @@
     <artifactId>DIPLOMA_RAICHUK_Y_QA_22</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <seleniumVersion>3.141.59</seleniumVersion>
-        <testNgVersion>7.6.0</testNgVersion>
-        <webdrivermanagerVersion>5.2.0</webdrivermanagerVersion>
-        <lombokVersion>1.18.8</lombokVersion>
-        <log4j-coreVersion>2.18.0</log4j-coreVersion>
-        <jackson-dataformat-yamlVersion>2.13.3</jackson-dataformat-yamlVersion>
-        <allure-testngVersion>2.18.1</allure-testngVersion>
-        <aspectj.version>1.9.8</aspectj.version>
-        <suiteXmlFile>smokeTests.xml</suiteXmlFile>
-        <suiteXmlFile>negativeTest.xml</suiteXmlFile>
-        <suiteXmlFile>regressionTest.xml</suiteXmlFile>
-        <suiteXmlFile>all-tests.xml</suiteXmlFile>
-        <maven.compiler.source>11.0.17</maven.compiler.source>
-        <maven.compiler.target>11.0.17</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -66,6 +50,11 @@
             <version>2.12.3</version>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>2.20.1</version>
@@ -85,10 +74,6 @@
                     </systemProperties>
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-                        <suiteXmlFile>negativeTest.xml</suiteXmlFile>
-                        <suiteXmlFile>regressionTest.xml</suiteXmlFile>
-                        <suiteXmlFile>smokeTest.xml</suiteXmlFile>
-                        <suiteXmlFile>all-tests.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar -Xmx256m
@@ -110,5 +95,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <suiteXmlFile>smoke.xml</suiteXmlFile>
+        <aspectj.version>1.9.8</aspectj.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>
