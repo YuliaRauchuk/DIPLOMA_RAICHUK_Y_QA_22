@@ -52,9 +52,4 @@ Stack
 [TestNG 7.4.0]
 [WebDriveManage 5.3.0]
 
-Patterns ???
-Page Object Model
-Builder
-Decorator
-Data Provider
-Value Object
+
