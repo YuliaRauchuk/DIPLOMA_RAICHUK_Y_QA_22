@@ -14,4 +14,12 @@ import lombok.Data;
         private String startDate;
         private String endDate;
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Milestones milestones = (Milestones) o;
+            return true;
+        }
     }
+

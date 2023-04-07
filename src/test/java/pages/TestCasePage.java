@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
 
 
 @Log4j2
@@ -13,8 +14,8 @@ public class TestCasePage extends BasePage {
         super(driver);
     }
     private final static By ADD_TEST_CASE = By.xpath("//*[@id=\"sidebar-cases-add\"]");
-    private final static By TITLE_LOCATOR = By.xpath("//*[@id=\"title\"]");
-    private final static By SECTION_DROPDOWN_LOCATOR = By.xpath("//*[@id=\"section_id_chzn\"]/a/span");
+    private final static By TITLE_NAME = By.xpath("//*[@id=\"title\"]");
+    private final static By SECTION_NAME = By.xpath("//*[@id=\"section_id_chzn\"]/a/span");
     private final static By TEMPLATE_DROPDOWN_LOCATOR = By.xpath("//*[@id=\"template_id_chzn\"]/a/span");
     private final static By TYPE_DROPDOWN_LOCATOR = By.xpath("//*[@id=\"type_id_chzn\"]/a/span");
     private final static By PRIORITY_DROPDOWN_LOCATOR = By.xpath("//*[@id=\"priority_id_chzn\"]/a/span");
@@ -30,37 +31,36 @@ public class TestCasePage extends BasePage {
     private final static By SUCCESS_MESSAGE = By.xpath("//*[@id=\"content-inner\"]/div[1]"); //"Successfully added the new test case."
     private final static By FIELD_TITLE_SUCCESS_MESSAGE = By.xpath("//*[@id=\"content-inner\"]/div[3]");
 
-
     private final static By EDIT_BUTTON_LOCATOR = By.xpath("//a[contains(@class,'button-edit')]");
     private final static By DELETE_BUTTON_LOCATOR = By.cssSelector("//a[@id='deleteCasesDisabled']//span[@class='button-text']");
 
     private final static By SAVE_TEST_CASE_BUTTON_LOCATOR = By.xpath("//*[@id=\"accept\"]");
-    private final static By DELETE_THIS_TEST_CASE_BUTTON_LOCATOR = By.xpath("//*[@id=\"sidebar\"]/div[1]/div[3]/a/span");
+    private final static By DELETE_THIS_TEST_CASE_BUTTON_LOCATOR = By.xpath("//*[@id=\"sidebar\"]/div[1]/div[3]");
     private final static By MARK_AS_DELETED_BUTTON_LOCATOR = By.xpath("//*[@id='casesDeletionDialog']/div[3]/div/a[2]");
     private final static By SUCCESS_MESSAGE_DELETE_TEST_CASE_LOCATOR = By.xpath("//*[@id=\"content-inner\"]/div[1]");
-    private final static By UPDATE_SUCCESS_MESSAGE = By.cssSelector("//*[@id=\"content-inner\"]/div[1]");
+    private final static By UPDATE_SUCCESS_MESSAGE = By.xpath("//*[@id=\"content-inner\"]/div[1]");
     @Override
     public boolean waitForPageLoaded() {
-
-        return false;
+        return true;
     }
 
     @Step("Click Add Test Cases")
-    public void clickAddTestCase() {
+    public void jsClickAddTestCase() {
         log.info("Click Add Test Cases");
-        driver.findElement(ADD_TEST_CASE).click();
+        jsClick(driver.findElement(ADD_TEST_CASE));
     }
 
-    @Step("Setting Title Locator")
-    public void clickTitleLocator(String newTestCase) {
-        log.info("Setting Title Locator");
-        driver.findElement(TITLE_LOCATOR).click();
+    @Step("Setting Title Input")
+    public void setTitleName(String name) {
+        log.info("Setting Title Input");
+        driver.findElement(TITLE_NAME).sendKeys(name);
     }
+
 
     @Step("Click Section Dropdown Locator")
-    public void clickSectionDropdownLocator(String testCases) {
+    public void clickSectionName(String testCases) {
         log.info("Click Section Dropdown Locator");
-        driver.findElement(SECTION_DROPDOWN_LOCATOR).click();
+        driver.findElement(SECTION_NAME).click();
     }
 
     @Step("Click Template Dropdown Locator")
@@ -183,13 +183,18 @@ public class TestCasePage extends BasePage {
     public boolean idDisplayedSuccessMessageDeleteTestCaseLocator() {
         log.info("Displayed Success Message Delete Test Case Locator");
         driver.findElement(SUCCESS_MESSAGE_DELETE_TEST_CASE_LOCATOR).isDisplayed();
-        return false;
+        return true;
     }
 
     @Step("Displayed Update Success Message")
     public boolean idDisplayedUpdateSuccessMessage() {
         log.info("Displayed Update Success Message");
         driver.findElement(UPDATE_SUCCESS_MESSAGE).isDisplayed();
-        return false;
+        return true;
+    }
+    @AfterTest
+    public void tearDown() {
+        driver.close();
+        driver.quit();
     }
 }

@@ -12,4 +12,3 @@ public class TestRun {
     private String assignTo;
     private String description;
 }
-

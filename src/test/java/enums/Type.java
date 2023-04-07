@@ -15,7 +15,7 @@ public enum Type {
     USABILITY("Usability");
 
 
-    private String name;
+    private final String name;
 
     Type(String name) {
         this.name = name;

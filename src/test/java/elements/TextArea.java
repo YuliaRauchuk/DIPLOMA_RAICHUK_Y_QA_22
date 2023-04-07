@@ -14,14 +14,10 @@ public class TextArea extends BaseElement{
 
     public TextArea(WebDriver driver, String label) {
         super(driver, label);
-        this.driver=driver;
-        this.label=label;
     }
     public void setValue(String value) {
         WebElement inputElement = driver.findElement(By.xpath(String.format(TEXTAREA_LOCATOR, label)));
         if (Objects.nonNull(value)) {
-
-            log.debug(String.format("Scroll to element %s", label));
             scrollIntoView(inputElement);
             log.debug(String.format("Enter %s to text area %s", value, label));
             inputElement.sendKeys(value);

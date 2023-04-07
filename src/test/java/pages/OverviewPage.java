@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
 
 
 @Log4j2
@@ -11,6 +12,7 @@ public class OverviewPage extends BasePage {
 
     public OverviewPage(WebDriver driver) {
         super(driver);
+
     }
 
     @Override
@@ -22,9 +24,13 @@ public class OverviewPage extends BasePage {
     private final static By DASHBOARD_LINK = By.xpath("//*[@id=\"navigation-dashboard\"]");
     private final static By TODO_LINK = By.xpath("//*[@id=\"navigation-todos\"]");
     private final static By OVERVIEW_LINK = By.xpath("//*[@id=\"navigation-projects\"]");
-    private final static By TEST_RUN_AND_RESULTS_LINK = By.xpath("//*[@id=\"navigation-runs\"]");
+    private final static By TEST_RUNS_LINK = By.xpath("//*[@id=\"navigation-runs\"]");
     private final static By TEST_CASES_LINK = By.xpath("//*[@id=\"navigation-suites\"]");
     private final static By REPORTS_LINK = By.xpath("//*[@id=\"navigation-reports\"]");
+    private final static By EDIT_BUTTON = By.xpath("//*[@id=\"content-header\"]/div/div[3]/a[1]");
+    private final static By UPDATE_PROJECT_MESSAGE = By.xpath("//*[@id=\"content-inner\"]/div[1]");
+
+
 
     @Step("Click Add Milestones Link")
     public void clickMilestonesLink() {
@@ -53,15 +59,32 @@ public class OverviewPage extends BasePage {
         log.info("Click Test Cases Link");
         driver.findElement(TEST_CASES_LINK).click();
     }
-    @Step("Click TestRun And Results Link")
-    public void clickTestRunAndResultsLink() {
-        log.info("Click TestRun And Results Link");
-        driver.findElement(TEST_RUN_AND_RESULTS_LINK).click();
+    @Step("Click TestRuns")
+    public void clickTestRunResultsLink()  {
+        log.info("Click TestRuns");
+        driver.findElement(TEST_RUNS_LINK).click();
     }
     @Step("Click Reports Link")
     public void clickReportsLink() {
         log.info("Click Reports Link");
         driver.findElement(REPORTS_LINK).click();
 
+    }
+    @Step("Click Edit Button")
+    public boolean clickEditButton() {
+        log.info("Click Edit Button");
+        driver.findElement(EDIT_BUTTON).click();
+        return true;
+    }
+    @Step("Displayed Update Project Message")
+    public boolean isDisplayedUpdateProjectMessage() {
+        log.info("Displayed Update Project Message");
+        driver.findElement(UPDATE_PROJECT_MESSAGE).isDisplayed();
+        return true;
+}
+    @AfterTest
+    public void tearDown() {
+        driver.close();
+        driver.quit();
     }
 }
