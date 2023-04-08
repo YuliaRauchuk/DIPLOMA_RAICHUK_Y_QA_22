@@ -5,7 +5,7 @@ public enum AutomationType {
     RANOREX("Ranorex");
 
 
-    private String name;
+    private final String name;
 
     AutomationType(String name) {
         this.name = name;

@@ -22,4 +22,12 @@ public class TestCase {
     private String steps;
     private String expectedResult;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestCase testCase = (TestCase) o;
+        return true;
+    }
 }

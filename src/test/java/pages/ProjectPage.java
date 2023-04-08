@@ -4,12 +4,11 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
+import org.testng.annotations.AfterTest;
 
 
 @Log4j2
 public class ProjectPage extends HomePage {
-
 
     public final static By NAME_INPUT = By.cssSelector("input#name");
     private final static By ANNOUNCEMENT_LOCATOR = By.cssSelector("//textarea[@id='announcement']");
@@ -18,7 +17,7 @@ public class ProjectPage extends HomePage {
     private final static By SAVE_PROJECT_BUTTON_LOCATOR = By.xpath("//*[@id=\"accept\"]");
     private final static By CANCEL_PROJECT_BUTTON_LOCATOR = By.cssSelector("/a[@id='admin-integration-form-cancel']");
 
-    private final static By EDIT_PROJECT_LOCATOR = By.cssSelector("//div[@class='icon-small-edit']");
+
     private final static By DELETE_PROJECT_CONFIRMATION_MESSAGE_LOCATOR = By.cssSelector("//div[@class='ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix']");
 
 
@@ -29,7 +28,7 @@ public class ProjectPage extends HomePage {
 
     @Override
     public boolean waitForPageLoaded() {
-        return false;
+        return true;
     }
 
     @Step("Project Name")
@@ -62,11 +61,6 @@ public class ProjectPage extends HomePage {
         driver.findElement(CANCEL_PROJECT_BUTTON_LOCATOR).click();
     }
 
-    @Step("Click Edit Project Locator")
-    public void setEditProjectLocator() {
-        log.info("Click Edit Project Locator");
-        driver.findElement(EDIT_PROJECT_LOCATOR).click();
-    }
     @Step("Displayed Delete Project Confirmation Message Locator")
     public void isDisplayedDeleteProjectConfirmationMessageLocator() {
         log.info("Displayed Delete Project Confirmation Message Locator");
@@ -76,5 +70,9 @@ public class ProjectPage extends HomePage {
     public boolean isAccessMessageDisplayed() {
         return true;
     }
-
+    @AfterTest
+    public void tearDown() {
+        driver.close();
+        driver.quit();
+    }
 }

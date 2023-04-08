@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
 
 
 @Log4j2
@@ -19,20 +20,15 @@ public class MilestonesPage extends HomePage {
     private final static By CHECKBOX_COMPLETED = By.xpath("//*[@id=\"is_completed\"]");
     private final static By MILESTONES_MESSAGE_SUCCESS = By.xpath("//*[@id=\"content-inner\"]/div[1]");
 
-    private final static By EDIT_LINK_MILESTONE_LOCATOR = By.xpath("//*[@id=\"milestone-287\"]/div[3]/div[2]/a[1]");
-    private final static By ENTITY_MILESTONES_INPUT_LOCATOR = By.xpath("//*[@id=\"milestone-855992945\"]/span/input");
-    private final static By DELETE_THIS_MILESTONE_BUTTON = By.xpath("////*[@id=\"milestone-287\"]/div[5]/a/div");
+    private final static By CHECKBOX_DELETE_SELECTED_MILESTONES = By.xpath("//*[@id=\"confirm-check\"]");
+    private final static By SELECT_ALL_CHECKBOX= By.xpath("//*[@id=\"active\"]/span[1]/input");
+    private final static By DELETE_SELECTED_BUTTON = By.xpath("//*[@id=\"delete-milestones\"]/a/span");
     private final static By CONFIRM_DELETE_INPUT_LOCATOR = By.xpath("//*[@id=\"confirm-check\"]");
     private final static By CONFIRM_DELETE_BUTTON_LOCATOR = By.xpath("//*[@id=\"bulkDeleteDialog\"]/div[3]/a[1]");
 
 
     public MilestonesPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    public boolean waitForPageLoaded() {
-        return true;
     }
 
     @Step("Click Add Milestone Button")
@@ -85,37 +81,46 @@ public class MilestonesPage extends HomePage {
         driver.findElement(ADD_MILESTONES).click();
 
     }
-@Step("Click Edit Link Milestone Locator")
-    public void clickEditLinkMilestoneLocator() {
-        log.info("Click Edit Link Milestone Locator");
-        driver.findElement(EDIT_LINK_MILESTONE_LOCATOR).click();
+
+    @Step("Click Delete Selected Milestones Checkbox")
+    public void clickDeleteSelectedMilestonesCheckbox() {
+        log.info("Click Delete Selected Milestones Checkbox");
+        driver.findElement(CHECKBOX_DELETE_SELECTED_MILESTONES).click();
     }
 
-    @Step("click entity milestone checkbox")
-    public void clickEntityMilestonesCheckbox() {
-        log.info("click entity milestone checkbox");
-        driver.findElement(ENTITY_MILESTONES_INPUT_LOCATOR).click();
+    @Step("Click Select All Checkbox")
+    public void clickSelectAllCheckbox() {
+        log.info("Click Select All Checkbox");
+        driver.findElement(SELECT_ALL_CHECKBOX).click();
     }
 
-    @Step("Click Delete This Milestone Button")
-    public void clickDeleteThisMilestoneButton() {
-        log.info("Click Delete This Milestone Button");
-        driver.findElement(DELETE_THIS_MILESTONE_BUTTON).click();
+    @Step("Click Delete Selected Button")
+    public void clickDeleteSelectedButton() {
+        log.info("Click Delete Selected Button");
+        driver.findElement(DELETE_SELECTED_BUTTON).click();
     }
 
-    @Step("Click confirm delete checkbox")
+    /*@Step("Click confirm delete checkbox")
     public void clickConfirmDeleteCheckbox() {
         log.info("click confirm delete checkbox");
         driver.findElement(CONFIRM_DELETE_INPUT_LOCATOR).click();
     }
 
-    @Step("click confirm delete button")
+     */
+
+    @Step("Click Confirm Delete Button")
     public void clickConfirmDeleteButton() {
-        log.info("click confirm delete button");
+        log.info("Click Confirm Delete Button");
         driver.findElement(CONFIRM_DELETE_BUTTON_LOCATOR).click();
     }
 
-    public boolean isAccessMessageDisplayed() {
+    public boolean isAccessMessageDisplayed(String s) {
         return true;
+    }
+
+    @AfterTest
+    public void tearDown() {
+        driver.close();
+        driver.quit();
     }
 }

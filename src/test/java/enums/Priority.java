@@ -6,7 +6,7 @@ public enum Priority {
     MEDIUM("Medium"),
     LOW("Low");
 
-    private String name;
+    private final String name;
 
     Priority(String name) {
         this.name = name;

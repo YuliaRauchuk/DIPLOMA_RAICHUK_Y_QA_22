@@ -1,45 +1,63 @@
 package tests;
 
+import io.qameta.allure.Attachment;
 import jdk.jfr.Description;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
-import pages.LoginPage;
-import pages.OverviewPage;
+
+import static constans.ConstantLogin.LoginTestsConstants.*;
 
 
 @Log4j2
 public class LoginTests extends BaseTest {
-    @Override
-    public void waitForPageLoaded() {
-    }
-    @BeforeClass
-    public void initialise() {
 
-        overviewPage = new OverviewPage(driver);
-        loginPage = new LoginPage(driver);
-        dashboardPage = new DashboardPage(driver);
+    @Attachment
+    @Description("Fail login page")
+    @Test(dataProvider = "negativeLoginTestData",groups = {"negative", "smoke"})
+    public void negativeLoginTests() throws IndexOutOfBoundsException {
+        loginPage.waitForPageLoaded();
+        loginPage.clickCheckmarkEmpty();
+        loginPage.setEmail(EMAIL);
+        loginPage.setPassword(PASSWORD);
+        loginPage.clickLoginButton();
+        Assert.assertEquals(loginPage.getErrorMessageText(), "Email/Login or Password is incorrect. Please try again.");
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), "Checking for an error message");
+
     }
-    @Description("Check login page and logout")
-    @Test(groups = {"all", "positive", "smoke"})
-    public void loginLoginTests() throws IndexOutOfBoundsException {
+    @DataProvider
+    public static Object[][] negativeLoginTestData() {
+        return new Object[][]{
+                {INCORRECT_EMAIL, PASSWORD, ERROR_MESSAGE_TEXT},
+                {EMAIL, INCORRECT_PASSWORD, ERROR_MESSAGE_TEXT},
+                {INCORRECT_EMAIL, INCORRECT_PASSWORD, ERROR_MESSAGE_TEXT},
+        };
+
+    }
+
+    @Description("Check login page")
+    @Test(groups = {"all", "positive", "smoke", "regression"})
+    public void positiveLoginTests() throws IndexOutOfBoundsException {
             loginPage.waitForPageLoaded();
-            loginPage.setEmail(EMAIL);
-            loginPage.setPassword("QWE");
-            loginPage.clickLoginButton();
-            loginPage.isDisplayedValidationErrorMessage();
-        Assert.assertTrue(loginPage.isDisplayedValidationErrorMessage(), "Password is too short (5 characters required");
+            loginPage.clickCheckmarkEmpty();
             loginPage.setEmail(EMAIL);
             loginPage.setPassword(PASSWORD);
             loginPage.clickLoginButton();
             dashboardPage.waitForPageLoaded();
-            dashboardPage.isAddProjectButtonDisplayed();
         Assert.assertTrue(dashboardPage.isAddProjectButtonDisplayed());
-            dashboardPage.clickNavigationUserName();
+}
+
+    @Description("Check logout page")
+    @Test(groups = {"all", "positive", "smoke", "regression"})
+    public void logOutLoginTests() throws IndexOutOfBoundsException  {
+            loginPage.waitForPageLoaded();
+            loginPage.clickCheckmarkEmpty();
+            loginPage.setEmail(EMAIL);
+            loginPage.setPassword(PASSWORD);
+            loginPage.clickLoginButton();
             dashboardPage.waitForPageLoaded();
-            dashboardPage.clickLogOutButton();
-        Assert.assertTrue(loginPage.waitForPageLoaded());
+            dashboardPage.clickNavigationUserName();
+        Assert.assertTrue(dashboardPage.jsClickLogOutButton());
     }
 }

@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
 
 
 @Log4j2
@@ -24,13 +24,18 @@ public class DashboardPage extends HomePage {
     private final static By PROJECT = By.xpath("//*[contains(text(), 'TEST PROJECT')] ");
     private final static By ADDED_PROJECT_MESSAGE_LOCATOR = By.xpath("//*[@id=\"content-inner\"]/div[1]");
 
-    private final static By LOGOUT_BUTTON = By.xpath("//*[@id='navigation-user-logout']");
+    private final static By LOGOUT_BUTTON = By.xpath("//*[@id=\"navigation-user-logout\"]");//
     private final static By LINK_PROJECT_MILESTONES = By.xpath("//*[contains(text(), 'Milestones')]");
 
-    private final static By LINK = By.xpath("//td//a[@class='link-noline']");
+    private final static By DROPDOWN_CARET = By.xpath("//*[@id=\"navigation-user\"]/span[2]");
+
+    private final static By CHANGE_PROJECT_NAME = By.xpath("//*[@id=\"name\"]");
+    private final static By CHECKBOX_COMPLETED = By.xpath("//*[@id=\"is_completed\"]");
+    private final static By SAVE_PROJECT = By.xpath("//*[@id=\"accept\"]");
+
+
     public DashboardPage(WebDriver driver) {
         super(driver);
-        this.wait = new WebDriverWait(driver, 30);
     }
 
     public boolean waitForPageLoaded() {
@@ -49,11 +54,13 @@ public class DashboardPage extends HomePage {
         driver.findElement(ADDED_PROJECT_MESSAGE_LOCATOR).isDisplayed();
         return true;
     }
-    @Step("Click Link")
-    public void clickLink() {
-        log.info("Click Link");
-        driver.findElement(LINK).click();
+
+   @Step("Click DropDown Caret")
+    public void clickDropDownCaret() {
+        log.info("Click DropDown Caret");
+        driver.findElement(DROPDOWN_CARET).click();
     }
+
     @Step("Click Link Project Milestones")
     public boolean openLinkProjectMilestones() {
         log.info("Click Link Project Milestones");
@@ -62,9 +69,10 @@ public class DashboardPage extends HomePage {
     }
 
     @Step("Click LogOut Button")
-    public void clickLogOutButton() {
+    public boolean jsClickLogOutButton() {
         log.info("Click LogOut Button");
-        driver.findElement(LOGOUT_BUTTON).click();
+        jsClick(driver.findElement(LOGOUT_BUTTON));
+        return true;
     }
 
     @Step("Click Add Project Button")
@@ -127,5 +135,34 @@ public class DashboardPage extends HomePage {
         driver.findElement(ADD_EXAMPLE_PROJECT_BUTTON).click();
 
     }
-}
 
+
+    /*@Step("Click Edit Project Locator")
+    public void setEditProjectLocator() {
+        log.info("Click Edit Project Locator");
+        driver.findElement(EDIT_PROJECT_LOCATOR).click();
+    }
+
+     */
+    @Step("Setting Change Project Name")
+    public void setChangeProjectName(String newName) {
+        log.info("Setting Change Project Name");
+        driver.findElement(CHANGE_PROJECT_NAME).click();
+    }
+    @Step("Click CheckBox Completed")
+    public void clickCheckBoxCompleted(){
+        log.info("click CheckBox Completed");
+        driver.findElement(CHECKBOX_COMPLETED).click();
+    }
+
+    @Step("Click Save Project")
+    public void clickSaveProject() {
+        log.info("Click Save Project");
+        driver.findElement(SAVE_PROJECT).click();
+    }
+    @AfterTest
+    public void tearDown() {
+        driver.close();
+        driver.quit();
+    }
+}

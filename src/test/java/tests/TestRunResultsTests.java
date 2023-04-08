@@ -3,17 +3,32 @@ package tests;
 import jdk.jfr.Description;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pages.*;
 
 @Log4j2
 public class TestRunResultsTests extends BaseTest {
-    @Override
-    public void waitForPageLoaded() {
+
+    LoginPage loginPage;
+    DashboardPage dashboardPage;
+    ProjectPage projectPage;
+    OverviewPage overviewPage;
+    TestRunResultsPage testRunResultsPage;
+
+    @BeforeClass(alwaysRun = true)
+    public void initialise() {
+        loginPage = new LoginPage(driver);
+        dashboardPage = new DashboardPage(driver);
+        projectPage = new ProjectPage(driver);
+        overviewPage = new OverviewPage(driver);
+        testRunResultsPage = new TestRunResultsPage(driver);
     }
     @Description("Positive Create TestRun Results Test")
     @Test(groups = {"smoke", "regression"})
     public void positiveCreateTestRunResultsTest() throws IndexOutOfBoundsException {
             loginPage.waitForPageLoaded();
+            loginPage.clickCheckmarkEmpty();
             loginPage.setEmail(EMAIL);
             loginPage.setPassword(PASSWORD);
             loginPage.clickLoginButton();
@@ -28,15 +43,13 @@ public class TestRunResultsTests extends BaseTest {
             dashboardPage.clickAddExampleProjectName("RUN-New");
             dashboardPage.clickAddExampleProjectButton();
             overviewPage.waitForPageLoaded();
-            overviewPage.clickTestRunAndResultsLink();
+            overviewPage.clickTestRunResultsLink();
             testRunResultsPage.waitForPageLoaded();
             testRunResultsPage.clickAddTestRunButton();
-            testRunResultsPage.setRunNameInput();
-            testRunResultsPage.setDescription();
+            testRunResultsPage.setDescription("D_run");
             testRunResultsPage.clickCheckBoxIncludeAllTestCase();
             testRunResultsPage.clickButtonAddTestRun();
-            testRunResultsPage.isDisplayedSuccessMessage();
-        Assert.assertTrue(testRunResultsPage.isDisplayedSuccessMessage(), "Successfully added the new test run.");
+        Assert.assertTrue(testRunResultsPage.isDisplayedSuccessMessage("Successfully closed the test plan and the related test runs."), "Successfully added the new test run.");
 
     }
 }

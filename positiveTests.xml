@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Negative Tests" parallel="classes" thread-count="2">
-    <test name="Negative tests">
+<suite name="Positive Tests" parallel="classes" thread-count="2">
+    <test name="Positive tests">
         <groups>
             <run>
-                <include name="negative"/>
+                <include name="positive"/>
             </run>
         </groups>
         <packages>
-            <package name="tests"></package>
+            <package name="tests"/>
         </packages>
     </test>
 </suite>
